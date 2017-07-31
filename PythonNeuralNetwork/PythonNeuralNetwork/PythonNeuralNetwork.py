@@ -1,9 +1,13 @@
+"""
+FULL DATASET: https://pjreddie.com/projects/mnist-in-csv/
+"""
+
 import numpy as np 
 import scipy.special 
 import matplotlib.pyplot as plt 
 
 
-# loading data files and creating list from it 
+# loading data files and creating list from it (it's not full training dataset, so score will be low) 
 training_data_file = open("datafolder/mnist_train_100.csv") 
 train_list = training_data_file.readlines() 
 training_data_file.close()
@@ -71,8 +75,8 @@ class neuralNetwork(object):
         # calculating inptus in each layer of neural network 
         inputs = np.array(inputs_list, ndmin = 2).T
 
-        hidden_nodes = np.dot(self.wih, inputs)
-        hidden_outputs = self.activation_function(hidden_nodes) 
+        hidden_inputs = np.dot(self.wih, inputs)
+        hidden_outputs = self.activation_function(hidden_inputs) 
         final_inputs = np.dot(self.who, hidden_outputs) 
         final_outputs = self.activation_function(final_inputs) 
 
@@ -83,13 +87,13 @@ class neuralNetwork(object):
 
 
 # neural network parameters
-input_nodes = 784
-hidden_nodes = 100
-output_nodes = 10
+input_neurons = 784
+hidden_neurons = 200
+output_neurons = 10
 learningRate = .1
 #---------------------------
 
-nn = neuralNetwork(input_nodes, hidden_nodes, output_nodes, learningRate) 
+nn = neuralNetwork(input_neurons, hidden_neurons, output_neurons, learningRate) 
 
 # number of training cycles
 epochs = 2
@@ -99,7 +103,7 @@ for e in range(epochs):
     for record in train_list:
         all_values = record.split(',') 
         inputs = (np.asfarray(all_values[1:]) / 255.0 * 0.99) + 0.01
-        targets = np.zeros(output_nodes) + 0.01
+        targets = np.zeros(output_neurons) + 0.01
         targets[int(all_values[0])] = .99
         nn.train(inputs, targets) 
 
@@ -129,6 +133,13 @@ print(score)
 scorecard_array = np.asarray(score)
 print("performance =", scorecard_array.sum()/ scorecard_array.size)
  
+
+# to check output for specific number 
+"""
+all_values = test_list[index_of_specific_number].split(',')
+input = np.asfarray(all_values[1:]) / 255.0 * .99
+output = nn.query(input) + .01
+"""
 
 # another way to view nn result 
 """
