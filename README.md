@@ -1,2 +1,3 @@
 # NeuralNetworkPython
-Simple neural network writing in python 
+Simple 3 layer neural network 
+
