@@ -1,3 +1,2 @@
 # NeuralNetworkPython
-Simple 3 layer neural network 
-
+3 layer neural network. For testing using mnist dataset
